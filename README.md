@@ -1,1 +1,1 @@
-# bolt-generated-project-diy
+# personal-resume
