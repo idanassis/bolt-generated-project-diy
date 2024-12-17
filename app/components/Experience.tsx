@@ -3,10 +3,10 @@ import { ScrollReveal } from './ScrollReveal'
 import { FaBriefcase, FaGraduationCap } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 
-const calculateDuration = (startDate, endDate = new Date()) => {
+const calculateDuration = (startDate: string, endDate: string | 'Present' = 'Present'): string => {
   const start = new Date(startDate)
   const end = endDate === 'Present' ? new Date() : new Date(endDate)
-  const diffTime = Math.abs(end - start)
+  const diffTime = Math.abs(end.getTime() - start.getTime())
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   const years = Math.floor(diffDays / 365)
   const months = Math.floor((diffDays % 365) / 30)
@@ -78,7 +78,20 @@ const education = [
   },
 ]
 
-const TimelineItem = ({ item, isLast }) => {
+interface TimelineItemProps {
+  item: {
+    title?: string;
+    degree?: string;
+    company?: string;
+    school?: string;
+    startDate: string;
+    endDate: string | 'Present';
+    description: string;
+  };
+  isLast: boolean;
+}
+
+const TimelineItem: React.FC<TimelineItemProps> = ({ item, isLast }) => {
   const [duration, setDuration] = useState('')
 
   useEffect(() => {
@@ -104,7 +117,20 @@ const TimelineItem = ({ item, isLast }) => {
   )
 }
 
-const ExperienceItem = ({ experience }) => {
+interface ExperienceItemProps {
+  experience: {
+    company: string;
+    startDate: string;
+    roles: Array<{
+      title: string;
+      startDate: string;
+      endDate: string | 'Present';
+      description: string;
+    }>;
+  };
+}
+
+const ExperienceItem: React.FC<ExperienceItemProps> = ({ experience }) => {
   const [totalDuration, setTotalDuration] = useState('')
 
   useEffect(() => {
